@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class TabBarController: UITabBarController ,UITabBarControllerDelegate{
 
@@ -20,7 +21,17 @@ class TabBarController: UITabBarController ,UITabBarControllerDelegate{
         self.delegate = self
         
     }
-    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        // currentUserがnilならログインしていない
+        if Auth.auth().currentUser == nil {
+            // ログインしていないときの処理
+            let loginViewController = self.storyboard?.instantiateViewController(withIdentifier: "Login")
+            self.present(loginViewController!, animated: true, completion: nil)
+        }
+        
+        
+    }
     // タブバーのアイコンがタップされた時に呼ばれるdelegateメソッドを処理する。
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         if viewController is ImageSelectViewController {
